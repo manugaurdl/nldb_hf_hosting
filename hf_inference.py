@@ -367,7 +367,7 @@ class ClipCapModel(nn.Module):
             
         self.do_sample = False
 
-        return decoded_captions, log_probs, torch.randn(1)
+        return decoded_captions
 
     def maybe_patch_gpt(self, max_embeddings):
         if not getattr(self.gpt, "_patched", False):
@@ -453,8 +453,8 @@ class ClipCapSender(nn.Module):
         # if image_feats.dtype != torch.float16:
         #     print("img feat not fp16")
 
-        captions, log_probs, kl_div = self.clipcap(image_feats, aux_input, use_fp16, CIDER_OPTIM, greedy_baseline, train_method)
-        return captions, log_probs, kl_div
+        captions = self.clipcap(image_feats, aux_input, use_fp16, CIDER_OPTIM, greedy_baseline, train_method)
+        return captions
 
     def repeat_tensors(self, n, x):
         """
